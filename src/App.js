@@ -5,6 +5,7 @@ import * from './utils/ContactsAPI'
 class App extends Component {
   state = {
     contacts: [],
+    edited: [],
   }
   componentDidMount() {
     ContactsAPI.getAll()
