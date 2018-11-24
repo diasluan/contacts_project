@@ -2,29 +2,20 @@ import React, { Component } from 'react';
 import ListContacts from './ListContacts';
 import CreateContact from './CreateContact'
 import { Route } from 'react-router-dom'
+import * from './utils/ContactsAPI'
 
 class App extends Component {
   state = {
-    contacts: [
-       {
-         "id": "karen",
-         "name": "Karen Isgrigg",
-         "handle": "karen_isgrigg",
-         "avatarURL": "http://localhost:5001/karen.jpg"
-       },
-       {
-         "id": "richard",
-         "name": "Richard Kalehoff",
-         "handle": "richardkalehoff",
-         "avatarURL": "http://localhost:5001/richard.jpg"
-       },
-       {
-         "id": "tyler",
-         "name": "Tyler McGinnis",
-         "handle": "tylermcginnis",
-         "avatarURL": "http://localhost:5001/tyler.jpg"
-       }
-      ],
+    contacts: [],
+    edited: [],
+  }
+  componentDidMount() {
+    ContactsAPI.getAll()
+      .then((contacts) => {
+        this.setState(() => ({
+          contacts
+        }))
+      })
   }
   removeContact = (contact) => {
     this.setState((currentState) => ({
@@ -32,6 +23,7 @@ class App extends Component {
         return c.id !== contact.id
       })
     }))
+    ContactsAPI.remove(contact)
   }
   createContact = () => {
     ContactsAPI.create(contact)
